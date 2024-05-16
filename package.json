@@ -1,0 +1,12 @@
+{
+  "name": "submission-platform",
+  "version": "1.0.0",
+  "description": "Platform for handling \"submission based\" events.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
