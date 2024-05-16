@@ -5,8 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "prettier --check '**/*.{css,scss,html,js,ts,tsx}'",
+    "format": "prettier --write '**/*.{css,scss,html,js,ts,tsx}'"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
 }
