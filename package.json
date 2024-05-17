@@ -11,8 +11,8 @@
     "check": "prettier --check '**/*.{css,scss,html,js,ts,tsx}'",
     "format": "prettier --write '**/*.{css,scss,html,js,ts,tsx}'",
     "drizzle-kit": "drizzle-kit",
-    "db:create:dev": "dotenv -e .env.dev drizzle-kit push",
-    "db:create:test": "dotenv -e .env.test drizzle-kit push"
+    "db:push:dev": "dotenv -e .env.dev drizzle-kit push",
+    "db:push:test": "dotenv -e .env.test drizzle-kit push"
   },
   "author": "",
   "license": "ISC",
