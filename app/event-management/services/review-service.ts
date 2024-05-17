@@ -3,9 +3,8 @@ const approve = async (submissionId: string) => {
 
   // TODO: if they are not allowed, throw an error
 
-  // TODO: check if submission has already been approved or rejected, handle accordingly
-
   // TODO if they are, call {unnamed} platform service to approve the submission
+  // ReviewsService.createReview(...);
   throw new Error("Method not implemented.");
 };
 
@@ -14,8 +13,7 @@ const reject = async (submissionId: string) => {
 
   // TODO: if they are not allowed, throw an error
 
-  // TODO: check if submission has already been approved or rejected, handle accordingly
-
   // TODO if they are, call {unnamed} platform service to approve the submission
+  // ReviewsService.createReview(...);
   throw new Error("Method not implemented.");
 };
