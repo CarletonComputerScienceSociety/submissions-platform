@@ -1,4 +1,7 @@
 import type { Config } from "drizzle-kit";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default {
   schema: "./db/schema.ts",
@@ -6,7 +9,7 @@ export default {
   dialect: "sqlite",
   driver: "better-sqlite",
   dbCredentials: {
-    url: "./db/dev.db",
+    url: process.env.DATABASE_URL,
   },
   verbose: true,
   strict: true,
