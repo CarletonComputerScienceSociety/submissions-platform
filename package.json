@@ -8,8 +8,8 @@
     "start": "node dist/index.ts",
     "dev": "nodemon config/express/index.ts",
     "test": "dotenv -e .env.test jest",
-    "check": "prettier --check '**/*.{css,scss,html,js,ts,tsx}'",
-    "format": "prettier --write '**/*.{css,scss,html,js,ts,tsx}'",
+    "check": "prettier --check '**/*.{css,scss,html,js,md,ts,tsx}'",
+    "format": "prettier --write '**/*.{css,scss,html,js,md,ts,tsx}'",
     "drizzle-kit": "drizzle-kit",
     "db:push:dev": "dotenv -e .env.dev drizzle-kit push",
     "db:push:test": "dotenv -e .env.test drizzle-kit push"
