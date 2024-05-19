@@ -2,10 +2,10 @@ import { ChallengesService } from "../../../app/challenges-platform";
 import { challengeFactory } from "../factories/challenge-factory";
 
 describe("ChallengesService", () => {
-  describe("findById", () => {
+  describe("findByUuid", () => {
     describe("when the id is invalid", () => {
       it("returns an error", async () => {
-        const result = await ChallengesService.findById("invalid-id");
+        const result = await ChallengesService.findByUuid("invalid-id");
 
         expect(result.err).toBe(true);
         expect(result.val.toString()).toBe("Error: Invalid UUID");
@@ -16,7 +16,7 @@ describe("ChallengesService", () => {
       it("returns the challenge", async () => {
         const challenge = await challengeFactory();
 
-        const result = await ChallengesService.findById(challenge.id);
+        const result = await ChallengesService.findByUuid(challenge.uuid);
 
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val.title).toBe("Test Challenge");
@@ -35,9 +35,9 @@ describe("ChallengesService", () => {
       const result = await ChallengesService.create(title, body, points);
 
       if (!result.ok) fail("Expected result to be Ok");
-      expect(result.val.title).toBe("Test Challenge");
-      expect(result.val.body).toBe("This is a test challenge");
-      expect(result.val.points).toBe(100);
+      expect(result.val.title).toBe(title);
+      expect(result.val.body).toBe(body);
+      expect(result.val.points).toBe(points);
     });
   });
 

@@ -5,7 +5,7 @@ import { db } from "../../../db";
 import { challenges } from "../../../db/schema";
 import { uuid } from "../../../app/common";
 
-export const findById = async (
+export const findByUuid = async (
   id: string,
 ): Promise<Result<Challenge, Error>> => {
   if (!uuid.isValid(id)) {
@@ -18,7 +18,8 @@ export const findById = async (
     .where(eq(challenges.uuid, id));
 
   const challenge = new Challenge({
-    id: result[0].uuid,
+    id: result[0].id,
+    uuid: result[0].uuid,
     title: result[0].title,
     body: result[0].body,
     points: result[0].points,
@@ -48,7 +49,8 @@ export const create = async (
       .returning();
 
     const challenge = new Challenge({
-      id: result[0].uuid,
+      id: result[0].id,
+      uuid: result[0].uuid,
       title: result[0].title,
       body: result[0].body,
       points: result[0].points,
@@ -65,11 +67,10 @@ export const create = async (
 export const update = async (): Promise<Result<Challenge, Error>> => {
   // TODO: should succesfully update a challenge
   return Err(new Error("Not implemented"));
-}
+};
 
 export const destroy = async (): Promise<Result<Challenge, Error>> => {
   // TODO: should mark a challenge as deleted (soft delete)
   // TODO: add a "deleted" boolean column to the challenges table
   return Err(new Error("Not implemented"));
-}
-
+};

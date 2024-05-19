@@ -10,3 +10,30 @@ export const challenges = sqliteTable("challenges", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const participants = sqliteTable("participants", {
+  id: integer("id").primaryKey(),
+  uuid: text("uuid").notNull(),
+  email: text("email").notNull(),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const submissions = sqliteTable("submissions", {
+  id: integer("id").primaryKey(),
+  uuid: text("uuid").notNull(),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const reviews = sqliteTable("reviews", {
+  id: integer("id").primaryKey(),
+  uuid: text("uuid").notNull(),
+  status: text("status").notNull(),
+  submissionId: integer("submission_id")
+    .notNull()
+    .references(() => submissions.id),
+  body: text("body").notNull(),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});

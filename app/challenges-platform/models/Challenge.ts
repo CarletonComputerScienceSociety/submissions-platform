@@ -1,3 +1,5 @@
+import { Submission } from "./Submission";
+
 export enum Format {
   TEXT,
   HTML,
@@ -39,7 +41,8 @@ export abstract class ChallengeTransformer {
 }
 
 export class Challenge {
-  id: string;
+  id: number;
+  uuid: string;
   title: string;
   body: string;
   format: Format;
@@ -48,13 +51,15 @@ export class Challenge {
 
   constructor({
     id,
+    uuid,
     title,
     body,
     format,
     evaluation,
     points,
   }: {
-    id: string;
+    id: number;
+    uuid: string;
     title: string;
     body: string;
     format: Format;
@@ -62,6 +67,7 @@ export class Challenge {
     points: number;
   }) {
     this.id = id;
+    this.uuid = uuid;
     this.title = title;
     this.body = body;
     this.format = format;

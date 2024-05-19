@@ -1,9 +1,27 @@
-abstract class Submission {
+import { Challenge } from "./Challenge";
+import { Participant } from "./Participant";
+
+export class Submission {
+  id: number;
+  uuid: string;
   challenge: Challenge;
-  partipant: Participant;
-  constructor(challenge: Challenge, participant: Participant) {
+  participant: Participant;
+
+  constructor({
+    id,
+    uuid,
+    challenge,
+    participant,
+  }: {
+    id: number;
+    uuid: string;
+    challenge: Challenge;
+    participant: Participant;
+  }) {
+    this.id = id;
+    this.uuid = uuid;
     this.challenge = challenge;
-    this.partipant = participant;
+    this.participant = participant;
   }
 
   // TODO: Implement these methods

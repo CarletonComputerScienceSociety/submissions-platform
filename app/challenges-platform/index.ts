@@ -1,1 +1,6 @@
-export { ChallengesService, ReviewsService } from "./services";
+export {
+  ChallengesService,
+  ParticipantsService,
+  ReviewsService,
+  SubmissionService,
+} from "./services";
