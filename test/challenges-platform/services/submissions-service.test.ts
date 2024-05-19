@@ -14,10 +14,9 @@ describe("SubmissionService", () => {
           participant.uuid,
         );
 
-        expect(result.ok).toBe(true);
-        // if (!result.ok) fail("Expected result to be Ok");
-        // expect(result.val.challenge.id).toBe(challenge.id);
-        // expect(result.val.participant.id).toBe(participant.id);
+        if (!result.ok) fail("Expected result to be Ok");
+        expect(result.val.challenge.id).toBe(challenge.id);
+        expect(result.val.participant.id).toBe(participant.id);
       });
     });
   });

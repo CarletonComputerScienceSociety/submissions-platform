@@ -22,6 +22,8 @@ export const participants = sqliteTable("participants", {
 export const submissions = sqliteTable("submissions", {
   id: integer("id").primaryKey(),
   uuid: text("uuid").notNull(),
+  challengeId: integer("challenge_id").references(() => challenges.id),
+  participantId: integer("participant_id").references(() => participants.id),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });

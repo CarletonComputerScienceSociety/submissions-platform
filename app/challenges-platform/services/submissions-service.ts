@@ -8,7 +8,7 @@ import { ChallengesService, ParticipantsService } from "../services";
 export const create = async (
   challengeId: string,
   participantId: string,
-): Promise<Result<null, Error>> => {
+): Promise<Result<Submission, Error>> => {
   const challengeResult = await ChallengesService.findByUuid(challengeId);
   if (!challengeResult.ok) {
     return Err(new Error("Failed to find challenge"));
@@ -33,30 +33,23 @@ export const create = async (
 
   const id = uuid.create();
   try {
-    // const result = await db
-    //   .insert(submissions)
-    //   .values({
-    //     uuid: id.toString(),
-    //     challengeId: challengeResult.val.id,
-    //     participantId: participantResult.val.id,
-    //   })
-    //   .returning();
-
     const result = await db
       .insert(submissions)
       .values({
         uuid: id.toString(),
+        challengeId: challengeResult.val.id,
+        participantId: participantResult.val.id,
       })
       .returning();
 
-    // const submission = new Submission({
-    //   id: result[0].id,
-    //   uuid: result[0].uuid,
-    //   challenge: challengeResult.val,
-    //   participant: participantResult.val,
-    // });
+    const submission = new Submission({
+      id: result[0].id,
+      uuid: result[0].uuid,
+      challenge: challengeResult.val,
+      participant: participantResult.val,
+    });
 
-    return Ok(null);
+    return Ok(submission);
   } catch (e) {
     console.log(e);
     return Err(new Error("Failed to create submission"));
