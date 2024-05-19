@@ -61,3 +61,15 @@ export const create = async (
     return Err(new Error("Failed to create challenge"));
   }
 };
+
+export const update = async (): Promise<Result<Challenge, Error>> => {
+  // TODO: should succesfully update a challenge
+  return Err(new Error("Not implemented"));
+}
+
+export const destroy = async (): Promise<Result<Challenge, Error>> => {
+  // TODO: should mark a challenge as deleted (soft delete)
+  // TODO: add a "deleted" boolean column to the challenges table
+  return Err(new Error("Not implemented"));
+}
+

@@ -40,4 +40,20 @@ describe("ChallengesService", () => {
       expect(result.val.points).toBe(100);
     });
   });
+
+  describe("update", () => {
+    it("throws an error", async () => {
+      const result = await ChallengesService.update();
+
+      expect(result.err).toBe(true);
+    });
+  });
+
+  describe("destroy", () => {
+    it("throws an error", async () => {
+      const result = await ChallengesService.destroy();
+
+      expect(result.err).toBe(true);
+    });
+  });
 });
