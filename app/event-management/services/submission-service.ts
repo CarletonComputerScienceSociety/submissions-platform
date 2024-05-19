@@ -1,4 +1,4 @@
-const submit = async (
+export const submit = async (
   challengeId: string,
   participantId: string,
   submissionBody: any,

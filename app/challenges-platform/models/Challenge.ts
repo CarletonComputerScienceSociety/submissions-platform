@@ -1,15 +1,15 @@
-enum Format {
+export enum Format {
   TEXT,
   HTML,
   MARKDOWN,
 }
 
-enum Evaluation {
+export enum Evaluation {
   MANUAL,
   AUTOMATIC,
 }
 
-abstract class Challenge {
+export abstract class ChallengeTransformer {
   id: string;
   title: string;
   body: string;
@@ -33,8 +33,39 @@ abstract class Challenge {
     this.points = points;
   }
 
-  // abstract validSubmission(submission: any): boolean;
   abstract dbToObject(): Challenge;
   abstract objectToDb(): any;
   abstract buildSubmission(submissionBody: any): Submission;
+}
+
+export class Challenge {
+  id: string;
+  title: string;
+  body: string;
+  format: Format;
+  evaluation: Evaluation;
+  points: number;
+
+  constructor({
+    id,
+    title,
+    body,
+    format,
+    evaluation,
+    points,
+  }: {
+    id: string;
+    title: string;
+    body: string;
+    format: Format;
+    evaluation: Evaluation;
+    points: number;
+  }) {
+    this.id = id;
+    this.title = title;
+    this.body = body;
+    this.format = format;
+    this.evaluation = evaluation;
+    this.points = points;
+  }
 }

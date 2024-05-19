@@ -1,4 +1,4 @@
-const approve = async (submissionId: string) => {
+export const approve = async (submissionId: string) => {
   // TODO: perform authorization check to ensure that the user is allowed to approve the submission
 
   // TODO: if they are not allowed, throw an error
@@ -8,7 +8,7 @@ const approve = async (submissionId: string) => {
   throw new Error("Method not implemented.");
 };
 
-const reject = async (submissionId: string) => {
+export const reject = async (submissionId: string) => {
   // TODO: perform authorization check to ensure that the user is allowed to approve the submission
 
   // TODO: if they are not allowed, throw an error
