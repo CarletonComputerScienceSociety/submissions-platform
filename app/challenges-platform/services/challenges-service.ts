@@ -24,13 +24,19 @@ export const findByUuid = async (
   return Ok(challenge);
 };
 
-export const create = async (
-  title: string,
-  body: string,
-  points: number,
-  type: string = "base",
-  metadata?: any,
-): Promise<Result<Challenge, Error>> => {
+export const create = async ({
+  title,
+  body,
+  points,
+  type = "base",
+  metadata = {},
+}: {
+  title: string;
+  body: string;
+  points: number;
+  type?: string;
+  metadata?: any;
+}): Promise<Result<Challenge, Error>> => {
   const id = uuid.create();
 
   try {
@@ -48,6 +54,8 @@ export const create = async (
         title: title,
         body: body,
         points: points,
+        type: type,
+        metadata: metadata,
       })
       .returning();
 

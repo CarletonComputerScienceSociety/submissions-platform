@@ -14,7 +14,9 @@ describe("FlagTransformer", () => {
         title: "Test Challenge",
         body: "This is a test challenge",
         points: 10,
-        flag: "test_flag",
+        metadata: {
+          flag: "test_flag",
+        },
       };
 
       const challenge = FlagTransformer.newChallenge(payload);
@@ -26,7 +28,7 @@ describe("FlagTransformer", () => {
       expect(challenge.body).toBe(payload.body);
       expect(challenge.format).toBe(Format.TEXT);
       expect(challenge.points).toBe(payload.points);
-      expect(challenge.flag).toBe(payload.flag);
+      expect(challenge.flag).toBe(payload.metadata.flag);
     });
   });
 

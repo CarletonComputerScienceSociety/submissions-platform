@@ -1,5 +1,7 @@
 import { ChallengesService } from "../../../app/challenges-platform";
 import { challengeFactory } from "../factories/challenge-factory";
+import { CustomTransformer, CustomChallenge } from "../custom-transformer";
+import { challengesPlatform } from "../../../app/challenges-platform";
 
 describe("ChallengesService", () => {
   describe("findByUuid", () => {
@@ -32,7 +34,11 @@ describe("ChallengesService", () => {
       const body = "This is a test challenge";
       const points = 100;
 
-      const result = await ChallengesService.create(title, body, points);
+      const result = await ChallengesService.create({
+        title,
+        body,
+        points,
+      });
 
       if (!result.ok) fail("Expected result to be Ok");
       expect(result.val.title).toBe(title);
@@ -54,6 +60,52 @@ describe("ChallengesService", () => {
       const result = await ChallengesService.destroy();
 
       expect(result.err).toBe(true);
+    });
+  });
+
+  describe("CustomTransformer", () => {
+    describe("with invalid metadata", () => {
+      it("will throw an error if metadata is incorrect", async () => {
+        const transformerName = "custom";
+        const invalidMetadata = {};
+        challengesPlatform.addTransformer(transformerName, CustomTransformer);
+
+        const createResult = await ChallengesService.create({
+          title: "Test Challenge",
+          body: "This is a test challenge",
+          points: 100,
+          type: transformerName,
+          metadata: invalidMetadata,
+        });
+
+        expect(createResult.err).toBe(true);
+      });
+    });
+
+    describe("with valid metadata", () => {
+      it("will create a challenge with the provided metadata", async () => {
+        const transformerName = "custom";
+        const validMetadata = {
+          propString: "test",
+          propNumber: 123,
+        };
+        challengesPlatform.addTransformer(transformerName, CustomTransformer);
+
+        const createResult = await ChallengesService.create({
+          title: "Test Challenge",
+          body: "This is a test challenge",
+          points: 100,
+          type: transformerName,
+          metadata: validMetadata,
+        });
+
+        expect(createResult.ok).toBe(true);
+        expect(createResult.val).toBeInstanceOf(CustomChallenge);
+        if (!(createResult.val instanceof CustomChallenge))
+          fail("Expected instance of CustomChallenge");
+        expect(createResult.val.propString).toBe(validMetadata.propString);
+        expect(createResult.val.propNumber).toBe(validMetadata.propNumber);
+      });
     });
   });
 });

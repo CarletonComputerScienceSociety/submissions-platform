@@ -8,6 +8,7 @@ export const challenges = sqliteTable("challenges", {
   body: text("body").notNull(),
   points: integer("points").notNull(),
   type: text("type").notNull().default("base"),
+  metadata: text("metadata", { mode: "json" }),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
@@ -23,6 +24,7 @@ export const participants = sqliteTable("participants", {
 export const submissions = sqliteTable("submissions", {
   id: integer("id").primaryKey(),
   uuid: text("uuid").notNull(),
+  metadata: text("metadata", { mode: "json" }),
   challengeId: integer("challenge_id").references(() => challenges.id),
   participantId: integer("participant_id").references(() => participants.id),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),

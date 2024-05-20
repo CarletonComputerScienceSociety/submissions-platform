@@ -5,31 +5,36 @@ import {
   Participant,
   Submission,
   Transformer,
-} from "../../challenges-platform/models";
+} from "../../app/challenges-platform/models";
 
-export class FlagChallengeSubmission extends Submission {
-  flag: string;
+export class CustomSubmission extends Submission {
+  propString: string;
+  propNumber: number;
 
   constructor({
     id,
     uuid,
     challenge,
     participant,
-    flag,
+    propString,
+    propNumber,
   }: {
     id: number;
     uuid: string;
     challenge: Challenge;
     participant: Participant;
-    flag: string;
+    propString: string;
+    propNumber: number;
   }) {
     super({ id, uuid, challenge, participant });
-    this.flag = flag;
+    this.propString = propString;
+    this.propNumber = propNumber;
   }
 }
 
-export class FlagChallenge extends Challenge {
-  flag: string;
+export class CustomChallenge extends Challenge {
+  propString: string;
+  propNumber: number;
   constructor({
     id,
     uuid,
@@ -37,7 +42,8 @@ export class FlagChallenge extends Challenge {
     body,
     format,
     points,
-    flag,
+    propString,
+    propNumber,
   }: {
     id: number;
     uuid: string;
@@ -45,7 +51,8 @@ export class FlagChallenge extends Challenge {
     body: string;
     format: Format;
     points: number;
-    flag: string;
+    propString: string;
+    propNumber: number;
   }) {
     super({
       id,
@@ -54,28 +61,33 @@ export class FlagChallenge extends Challenge {
       body,
       format,
       points,
-      evaluation: Evaluation.AUTOMATIC,
+      evaluation: Evaluation.MANUAL,
     });
-    this.flag = flag;
+    this.propString = propString;
+    this.propNumber = propNumber;
   }
 }
 
-export class FlagTransformer extends Transformer {
+export class CustomTransformer extends Transformer {
   public static newChallenge(payload: any) {
-    const challenge = new FlagChallenge({
+    const challenge = new CustomChallenge({
       id: payload.id,
       uuid: payload.uuid,
       title: payload.title,
       body: payload.body,
       format: Format.TEXT,
       points: payload.points,
-      flag: payload.metadata.flag,
+      propString: payload.metadata.propString,
+      propNumber: payload.metadata.propNumber,
     });
     return challenge;
   }
 
   public static validateChallengeMetadata(payload: any): boolean {
-    return payload.hasOwnProperty("flag");
+    return (
+      payload.hasOwnProperty("propString") &&
+      payload.hasOwnProperty("propNumber")
+    );
   }
 
   public static newSubmission(
@@ -83,17 +95,21 @@ export class FlagTransformer extends Transformer {
     challenge: Challenge,
     participant: Participant,
   ): Submission {
-    const submission = new FlagChallengeSubmission({
+    const submission = new CustomSubmission({
       id: payload.id,
       uuid: payload.uuid,
       challenge: challenge,
       participant: participant,
-      flag: payload.flag,
+      propString: payload.propString,
+      propNumber: payload.propNumber,
     });
     return submission;
   }
 
   public static validateSubmissionMetadata(payload: any): boolean {
-    return payload.hasOwnProperty("flag");
+    return (
+      payload.hasOwnProperty("propString") &&
+      payload.hasOwnProperty("propNumber")
+    );
   }
 }

@@ -14,11 +14,11 @@ export const challengeFactory = async ({
   const challengeBody = body || "This is a test challenge";
   const challengePoints = points || 100;
 
-  const result = await ChallengesService.create(
-    challengeTitle,
-    challengeBody,
-    challengePoints,
-  );
+  const result = await ChallengesService.create({
+    title: challengeTitle,
+    body: challengeBody,
+    points: challengePoints,
+  });
   if (!result.ok) fail("Expected result to be Ok");
   return result.val;
 };
