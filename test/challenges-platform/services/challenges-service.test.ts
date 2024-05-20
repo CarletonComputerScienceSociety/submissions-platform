@@ -79,6 +79,7 @@ describe("ChallengesService", () => {
         });
 
         expect(createResult.err).toBe(true);
+        expect(createResult.val.toString()).toBe("Error: Invalid metadata");
       });
     });
 
