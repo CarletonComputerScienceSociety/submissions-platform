@@ -7,7 +7,7 @@ import {
   Transformer,
 } from "../../challenges-platform/models";
 
-class FlagChallengeSubmission extends Submission {
+export class FlagChallengeSubmission extends Submission {
   flag: string;
 
   constructor({
@@ -28,7 +28,7 @@ class FlagChallengeSubmission extends Submission {
   }
 }
 
-class FlagChallenge extends Challenge {
+export class FlagChallenge extends Challenge {
   flag: string;
   constructor({
     id,
@@ -61,19 +61,39 @@ class FlagChallenge extends Challenge {
 }
 
 export class FlagTransformer extends Transformer {
-  dbToChallengeObject() {
-    throw new Error("Method not implemented.");
+  public static newChallenge(payload: any) {
+    const challenge = new FlagChallenge({
+      id: payload.id,
+      uuid: payload.uuid,
+      title: payload.title,
+      body: payload.body,
+      format: Format.TEXT,
+      points: payload.points,
+      flag: payload.flag,
+    });
+    return challenge;
   }
-  challengeObjectToDb() {
-    throw new Error("Method not implemented.");
+
+  public static validateChallengeMetadata(payload: any): boolean {
+    return payload.hasOwnProperty("flag");
   }
-  dbToSubmissionObject() {
-    throw new Error("Method not implemented.");
+
+  public static newSubmission(
+    payload: any,
+    challenge: Challenge,
+    participant: Participant,
+  ): Submission {
+    const submission = new FlagChallengeSubmission({
+      id: payload.id,
+      uuid: payload.uuid,
+      challenge: challenge,
+      participant: participant,
+      flag: payload.flag,
+    });
+    return submission;
   }
-  submissionObjectToDb() {
-    throw new Error("Method not implemented.");
-  }
-  buildSubmission(submissionBody: any) {
-    throw new Error("Method not implemented.");
+
+  public static validateSubmissionMetadata(payload: any): boolean {
+    return payload.hasOwnProperty("flag");
   }
 }
