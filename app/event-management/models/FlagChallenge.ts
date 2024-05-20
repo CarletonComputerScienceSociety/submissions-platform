@@ -1,16 +1,29 @@
+import {
+  Challenge,
+  Evaluation,
+  Format,
+  Participant,
+  Submission,
+  Transformer,
+} from "../../challenges-platform/models";
+
 class FlagChallengeSubmission extends Submission {
   flag: string;
 
   constructor({
-    flag,
+    id,
+    uuid,
     challenge,
     participant,
+    flag,
   }: {
-    flag: string;
+    id: number;
+    uuid: string;
     challenge: Challenge;
     participant: Participant;
+    flag: string;
   }) {
-    super(challenge, participant);
+    super({ id, uuid, challenge, participant });
     this.flag = flag;
   }
 }
@@ -19,36 +32,48 @@ class FlagChallenge extends Challenge {
   flag: string;
   constructor({
     id,
+    uuid,
     title,
     body,
     format,
     points,
     flag,
   }: {
-    id: string;
+    id: number;
+    uuid: string;
     title: string;
     body: string;
     format: Format;
     points: number;
     flag: string;
   }) {
-    super(id, title, body, format, Evaluation.AUTOMATIC, points);
+    super({
+      id,
+      uuid,
+      title,
+      body,
+      format,
+      points,
+      evaluation: Evaluation.AUTOMATIC,
+    });
     this.flag = flag;
   }
+}
 
-  dbToObject(): FlagChallenge {
-    throw new Error("Method not implemented.");
-    return this;
-  }
-  objectToDb(): any {
+export class FlagTransformer extends Transformer {
+  dbToChallengeObject() {
     throw new Error("Method not implemented.");
   }
-
-  buildSubmission(submissionBody: any): FlagChallengeSubmission {
+  challengeObjectToDb() {
     throw new Error("Method not implemented.");
-
-    // TODO should throw error if flag is not present
-    // const { flag } = submissionBody;
-    // return new FlagChallengeSubmission({ flag });
+  }
+  dbToSubmissionObject() {
+    throw new Error("Method not implemented.");
+  }
+  submissionObjectToDb() {
+    throw new Error("Method not implemented.");
+  }
+  buildSubmission(submissionBody: any) {
+    throw new Error("Method not implemented.");
   }
 }

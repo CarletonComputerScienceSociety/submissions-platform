@@ -1,52 +1,75 @@
-class PhotoChallengeSubmission extends Submission {
+import {
+  Challenge,
+  Evaluation,
+  Format,
+  Participant,
+  Submission,
+  Transformer,
+} from "../../challenges-platform/models";
+
+export class PhotoChallengeSubmission extends Submission {
   photoUrl: string;
 
   constructor({
+    id,
+    uuid,
     photoUrl,
     challenge,
     participant,
   }: {
+    id: number;
+    uuid: string;
     photoUrl: string;
     challenge: Challenge;
     participant: Participant;
   }) {
-    super(challenge, participant); // Add the missing participant argument
+    super({ id, uuid, challenge, participant });
     this.photoUrl = photoUrl;
   }
 }
 
-class PhotoChallenge extends Challenge {
+export class PhotoChallenge extends Challenge {
   constructor({
     id,
+    uuid,
     title,
     body,
     format,
     points,
   }: {
-    id: string;
+    id: number;
+    uuid: string;
     title: string;
     body: string;
     format: Format;
     points: number;
   }) {
-    super(id, title, body, format, Evaluation.MANUAL, points);
+    super({
+      id,
+      uuid,
+      title,
+      body,
+      format,
+      points,
+      evaluation: Evaluation.MANUAL,
+    });
   }
+}
 
-  validSubmission(submission: Submission): boolean {
-    // hypothetically validates for a photo url
+export class PhotoTransformer extends Transformer {
+  dbToChallengeObject() {
     throw new Error("Method not implemented.");
   }
-
-  dbToObject(): PhotoChallenge {
-    throw new Error("Method not implemented.");
-    return this;
-  }
-
-  objectToDb(): any {
+  challengeObjectToDb() {
     throw new Error("Method not implemented.");
   }
-
-  buildSubmission(submissionBody: any): PhotoChallengeSubmission {
+  dbToSubmissionObject() {
+    throw new Error("Method not implemented.");
+  }
+  submissionObjectToDb() {
+    throw new Error("Method not implemented.");
+  }
+  buildSubmission(submissionBody: any) {
     throw new Error("Method not implemented.");
   }
 }

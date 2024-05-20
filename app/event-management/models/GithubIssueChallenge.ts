@@ -1,49 +1,77 @@
-class GithubIssueChallengeSubmission extends Submission {
+import {
+  Challenge,
+  Evaluation,
+  Format,
+  Participant,
+  Submission,
+  Transformer,
+} from "../../challenges-platform/models";
+
+export class GithubIssueChallengeSubmission extends Submission {
   issueId: string;
   repositoryId: string;
 
   constructor({
+    id,
+    uuid,
     issueId,
     repositoryId,
     challenge,
     participant,
   }: {
+    id: number;
+    uuid: string;
     issueId: string;
     repositoryId: string;
     challenge: Challenge;
     participant: Participant;
   }) {
-    super(challenge, participant); // Add the missing participant argument
+    super({ id, uuid, challenge, participant });
     this.issueId = issueId;
     this.repositoryId = repositoryId;
   }
 }
 
-class GithubIssueChallenge extends Challenge {
+export class GithubIssueChallenge extends Challenge {
   constructor({
     id,
+    uuid,
     title,
     body,
     points,
   }: {
-    id: string;
+    id: number;
+    uuid: string;
     title: string;
     body: string;
     points: number;
   }) {
-    super(id, title, body, Format.MARKDOWN, Evaluation.AUTOMATIC, points);
+    super({
+      id,
+      uuid,
+      title,
+      body,
+      format: Format.MARKDOWN,
+      points,
+      evaluation: Evaluation.MANUAL,
+    });
   }
+}
 
-  dbToObject(): GithubIssueChallenge {
+export class GithubIssueTransformer extends Transformer {
+  dbToChallengeObject() {
     throw new Error("Method not implemented.");
-    return this;
   }
-
-  objectToDb(): any {
+  challengeObjectToDb() {
     throw new Error("Method not implemented.");
   }
-
-  buildSubmission(submissionBody: any): GithubIssueChallengeSubmission {
+  dbToSubmissionObject() {
+    throw new Error("Method not implemented.");
+  }
+  submissionObjectToDb() {
+    throw new Error("Method not implemented.");
+  }
+  buildSubmission(submissionBody: any) {
     throw new Error("Method not implemented.");
   }
 }

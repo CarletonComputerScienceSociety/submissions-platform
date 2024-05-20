@@ -7,6 +7,7 @@ export const challenges = sqliteTable("challenges", {
   title: text("title").notNull(),
   body: text("body").notNull(),
   points: integer("points").notNull(),
+  type: text("type").notNull().default("base"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
@@ -32,9 +33,7 @@ export const reviews = sqliteTable("reviews", {
   id: integer("id").primaryKey(),
   uuid: text("uuid").notNull(),
   status: text("status").notNull(),
-  submissionId: integer("submission_id")
-    .notNull()
-    .references(() => submissions.id),
+  submissionId: integer("submission_id").references(() => submissions.id),
   body: text("body").notNull(),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),

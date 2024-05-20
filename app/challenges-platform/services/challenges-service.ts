@@ -4,6 +4,7 @@ import { Challenge, Format, Evaluation } from "../models/Challenge";
 import { db } from "../../../db";
 import { challenges } from "../../../db/schema";
 import { uuid } from "../../../app/common";
+import { challengesPlatform } from "../index";
 
 export const findByUuid = async (
   id: string,
@@ -17,15 +18,8 @@ export const findByUuid = async (
     .from(challenges)
     .where(eq(challenges.uuid, id));
 
-  const challenge = new Challenge({
-    id: result[0].id,
-    uuid: result[0].uuid,
-    title: result[0].title,
-    body: result[0].body,
-    points: result[0].points,
-    format: Format.TEXT,
-    evaluation: Evaluation.MANUAL,
-  });
+  const transformer = challengesPlatform.findTransformer(result[0].type);
+  const challenge = transformer.newChallenge(result[0]);
 
   return Ok(challenge);
 };
@@ -34,10 +28,19 @@ export const create = async (
   title: string,
   body: string,
   points: number,
+  type: string = "base",
+  metadata?: any,
 ): Promise<Result<Challenge, Error>> => {
   const id = uuid.create();
 
   try {
+    const transformer = challengesPlatform.findTransformer(type);
+    const metadataIsValid = transformer.validateChallengeMetadata(metadata);
+
+    if (!metadataIsValid) {
+      return Err(new Error("Invalid metadata"));
+    }
+
     const result = await db
       .insert(challenges)
       .values({
@@ -48,16 +51,7 @@ export const create = async (
       })
       .returning();
 
-    const challenge = new Challenge({
-      id: result[0].id,
-      uuid: result[0].uuid,
-      title: result[0].title,
-      body: result[0].body,
-      points: result[0].points,
-      format: Format.TEXT,
-      evaluation: Evaluation.MANUAL,
-    });
-
+    const challenge = transformer.newChallenge(result[0]);
     return Ok(challenge);
   } catch (e) {
     return Err(new Error("Failed to create challenge"));

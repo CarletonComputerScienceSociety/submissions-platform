@@ -23,8 +23,4 @@ export class Submission {
     this.challenge = challenge;
     this.participant = participant;
   }
-
-  // TODO: Implement these methods
-  // abstract dbToObject(): Submission;
-  // abstract objectToDb(): any;
 }
