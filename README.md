@@ -53,4 +53,10 @@ npm run db:push:test
 npm run dev
 ```
 
+8. Run the tests:
+
+```bash
+npm run test
+```
+
 That's it! You have successfully set up the Submissions Platform on your local machine.
