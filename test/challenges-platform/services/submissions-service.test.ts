@@ -19,5 +19,31 @@ describe("SubmissionService", () => {
         expect(result.val.participant.id).toBe(participant.id);
       });
     });
+    describe("when challenge does not exist", () => {
+      it("returns an error", async () => {
+        const participant = await participantFactory();
+
+        const result = await SubmissionService.create(
+          "invalid-uuid",
+          participant.uuid,
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Failed to find challenge");
+      });
+    });
+    describe("when participant does not exist", () => {
+      it("returns an error", async () => {
+        const challenge = await challengeFactory();
+
+        const result = await SubmissionService.create(
+          challenge.uuid,
+          "invalid-uuid",
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Failed to find participant");
+      });
+    });
   });
 });
