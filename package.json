@@ -11,7 +11,7 @@
     "check": "prettier --check '**/*.{css,scss,html,js,md,ts,tsx}'",
     "format": "prettier --write '**/*.{css,scss,html,js,md,ts,tsx}'",
     "drizzle-kit": "drizzle-kit",
-    "db:push:dev": "npx dotenv -e .env.dev drizzle-kit push",
+    "db:push:dev": "npx dotenv -e .env drizzle-kit push",
     "db:push:test": "npx dotenv -e .env.test drizzle-kit push"
   },
   "author": "",
