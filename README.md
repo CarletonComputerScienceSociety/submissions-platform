@@ -37,8 +37,8 @@ DATABASE_URL="./db/test.db"
 5. Run database setup commands
 
 ```bash
-npm run db:create:dev
-npm run db:create:test
+npm run db:push:dev
+npm run db:push:test
 ```
 
 6. Start the application:
