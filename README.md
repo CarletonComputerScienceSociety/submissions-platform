@@ -22,7 +22,13 @@ cd submissions-platform
 npm install
 ```
 
-4. Add a `.env` and `.env.test` file it your root with the following configurations:
+4. Install dotenv-cli
+
+```bash
+npm install -g dotenv-cli
+```
+
+5. Add a `.env` and `.env.test` file it your root with the following configurations:
 
 ```bash
 PORT=3000
@@ -34,14 +40,14 @@ PORT=3000
 DATABASE_URL="./db/test.db"
 ```
 
-5. Run database setup commands
+6. Run database setup commands
 
 ```bash
 npm run db:push:dev
 npm run db:push:test
 ```
 
-6. Start the application:
+7. Start the application:
 
 ```bash
 npm run dev
