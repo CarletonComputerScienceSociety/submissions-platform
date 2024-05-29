@@ -1,4 +1,5 @@
-import { SubmissionService } from "../../../app/challenges-platform";
+import { ChallengesService, SubmissionService } from "../../../app/challenges-platform";
+import { Challenge } from "../../../app/challenges-platform/models";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
 
@@ -30,6 +31,24 @@ describe("SubmissionService", () => {
 
         expect(result.err).toBe(true);
         expect(result.val.toString()).toBe("Error: Failed to find challenge");
+      });
+    });
+    describe("when challenge is deleted", () => {
+      it("returns an error", async () => {
+        const factory = await challengeFactory();
+        // Delete the challenge
+        const challenge = await ChallengesService.destroy(factory.uuid);
+        if (!challenge.ok) fail("Expected challenge to be Ok, something went really wrong");
+
+        const participant = await participantFactory();
+
+        const result = await SubmissionService.create(
+          challenge.val.uuid,
+          participant.uuid,
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Challenge is deleted");
       });
     });
     describe("when participant does not exist", () => {
