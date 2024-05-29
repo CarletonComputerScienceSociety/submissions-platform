@@ -71,12 +71,14 @@ export const update = async (): Promise<Result<Challenge, Error>> => {
   return Err(new Error("Not implemented"));
 };
 
-export const destroy = async (id: string): Promise<Result<Challenge, Error>> => {
+export const destroy = async (
+  id: string,
+): Promise<Result<Challenge, Error>> => {
   // TODO: should mark a challenge as deleted (soft delete)
   try {
     const result = await db
       .update(challenges)
-      .set({ deleted: "TRUE" })
+      .set({ deleted: Number(true) })
       .where(eq(challenges.uuid, id))
       .returning();
     const transformer = challengesPlatform.findTransformer(result[0].type);

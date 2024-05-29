@@ -61,8 +61,8 @@ describe("ChallengesService", () => {
 
       const result = await ChallengesService.destroy(challenge.uuid);
 
-      if(!result.ok) fail("Expected result to be Ok");
-      expect(result.val.deleted).toBe("TRUE");
+      if (!result.ok) fail("Expected result to be Ok");
+      expect(result.val.deleted).toBe(true);
     });
   });
 

@@ -62,7 +62,7 @@ export class CustomChallenge extends Challenge {
       format,
       points,
       evaluation: Evaluation.MANUAL,
-      deleted: "FALSE",
+      deleted: false,
     });
     this.propString = propString;
     this.propNumber = propNumber;

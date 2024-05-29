@@ -54,7 +54,7 @@ export class GithubIssueChallenge extends Challenge {
       format: Format.MARKDOWN,
       points,
       evaluation: Evaluation.MANUAL,
-      deleted: "FALSE",
+      deleted: false,
     });
   }
 }

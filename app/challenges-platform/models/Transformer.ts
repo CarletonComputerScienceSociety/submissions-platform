@@ -34,7 +34,7 @@ export class BaseTransformer extends Transformer {
       format: Format.TEXT,
       points: payload.points,
       evaluation: Evaluation.MANUAL,
-      deleted: payload.deleted,
+      deleted: Boolean(payload.deleted),
     });
     return challenge;
   }

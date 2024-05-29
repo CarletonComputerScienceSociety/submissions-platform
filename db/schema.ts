@@ -11,7 +11,7 @@ export const challenges = sqliteTable("challenges", {
   metadata: text("metadata", { mode: "json" }),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
-  deleted: text("deleted").notNull().default("FALSE"),
+  deleted: integer("deleted").notNull().default(0),
 });
 
 export const participants = sqliteTable("participants", {
