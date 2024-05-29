@@ -71,8 +71,18 @@ export const update = async (): Promise<Result<Challenge, Error>> => {
   return Err(new Error("Not implemented"));
 };
 
-export const destroy = async (): Promise<Result<Challenge, Error>> => {
+export const destroy = async (id: string): Promise<Result<Challenge, Error>> => {
   // TODO: should mark a challenge as deleted (soft delete)
-  // TODO: add a "deleted" boolean column to the challenges table
-  return Err(new Error("Not implemented"));
+  try {
+    const result = await db
+      .update(challenges)
+      .set({ deleted: "TRUE" })
+      .where(eq(challenges.uuid, id))
+      .returning();
+    const transformer = challengesPlatform.findTransformer(result[0].type);
+    const challenge = transformer.newChallenge(result[0]);
+    return Ok(challenge);
+  } catch (e) {
+    return Err(new Error("Failed to mark challenge as deleted"));
+  }
 };

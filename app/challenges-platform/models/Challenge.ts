@@ -16,6 +16,7 @@ export class Challenge {
   format: Format;
   evaluation: Evaluation;
   points: number;
+  deleted: string;
 
   constructor({
     id,
@@ -25,6 +26,7 @@ export class Challenge {
     format,
     evaluation,
     points,
+    deleted,
   }: {
     id: number;
     uuid: string;
@@ -33,6 +35,7 @@ export class Challenge {
     format: Format;
     evaluation: Evaluation;
     points: number;
+    deleted: string,
   }) {
     this.id = id;
     this.uuid = uuid;
@@ -41,5 +44,6 @@ export class Challenge {
     this.format = format;
     this.evaluation = evaluation;
     this.points = points;
+    this.deleted = deleted;
   }
 }
