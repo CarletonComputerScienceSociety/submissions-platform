@@ -1,10 +1,11 @@
 import { Ok, Err, Result } from "ts-results";
 import { db } from "../../../db";
-import { submissions } from "../../../db/schema";
+import { submissions, accessibleChallenges, participants } from "../../../db/schema";
 import { uuid } from "../../../app/common";
 import { Submission } from "../models";
 import { ChallengesService, ParticipantsService } from "../services";
 import { challengesPlatform } from "..";
+import { eq } from "drizzle-orm";
 
 export const create = async (
   challengeId: string,
@@ -21,8 +22,16 @@ export const create = async (
     return Err(new Error("Failed to find participant"));
   }
 
-  // TODO: Validate that the participant is allowed to submit this challenge (available challenges)
-  // throw new Error("Participant is not allowed to submit this challenge") if not allowed (use participant-service)
+  const accessibleChallengesResult = await db
+    .select({pId: accessibleChallenges.participantId,cId: accessibleChallenges.challengeId})
+    .from(accessibleChallenges)
+    .where(eq(accessibleChallenges.participantId, participantResult.val.id) && eq(accessibleChallenges.challengeId, challengeResult.val.id))
+    .execute();
+
+    if (accessibleChallengesResult.length === 0) {
+      return Err(new Error("Participant is not allowed to submit this challenge" ));
+    }
+
 
   // TODO: switch on submission.challenge.evaluation
   // if submission.challenge.evaluation is MANUAL, than save it to the database
