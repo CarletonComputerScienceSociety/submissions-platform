@@ -19,7 +19,7 @@ export const accessibleChallenges = sqliteTable("accessible_challenges", {
   participantId: integer("participant_id").references(() => participants.id),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
-})
+});
 
 export const participants = sqliteTable("participants", {
   id: integer("id").primaryKey(),
@@ -48,4 +48,3 @@ export const reviews = sqliteTable("reviews", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
-

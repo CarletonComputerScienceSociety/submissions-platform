@@ -1,11 +1,14 @@
 import { Ok, Err, Result } from "ts-results";
 import { db } from "../../../db";
-import { submissions, accessibleChallenges, participants } from "../../../db/schema";
+import { submissions } from "../../../db/schema";
 import { uuid } from "../../../app/common";
-import { Submission } from "../models";
-import { ChallengesService, ParticipantsService } from "../services";
+import { Challenge, Participant, Submission } from "../models";
+import {
+  AccesibleChallengesService,
+  ChallengesService,
+  ParticipantsService,
+} from "../services";
 import { challengesPlatform } from "..";
-import { eq } from "drizzle-orm";
 
 export const create = async (
   challengeId: string,
@@ -13,25 +16,10 @@ export const create = async (
   type: string = "base",
   metadata?: any,
 ): Promise<Result<Submission, Error>> => {
-  const challengeResult = await ChallengesService.findByUuid(challengeId);
-  if (!challengeResult.ok) {
-    return Err(new Error("Failed to find challenge"));
-  }
-  const participantResult = await ParticipantsService.findByUuid(participantId);
-  if (!participantResult.ok) {
-    return Err(new Error("Failed to find participant"));
-  }
+  const result = await beforeCreate(challengeId, participantId);
+  if (!result.ok) return result;
 
-  const accessibleChallengesResult = await db
-    .select({pId: accessibleChallenges.participantId,cId: accessibleChallenges.challengeId})
-    .from(accessibleChallenges)
-    .where(eq(accessibleChallenges.participantId, participantResult.val.id) && eq(accessibleChallenges.challengeId, challengeResult.val.id))
-    .execute();
-
-    if (accessibleChallengesResult.length === 0) {
-      return Err(new Error("Participant is not allowed to submit this challenge" ));
-    }
-
+  const [challenge, participant] = result.val;
 
   // TODO: switch on submission.challenge.evaluation
   // if submission.challenge.evaluation is MANUAL, than save it to the database
@@ -52,18 +40,51 @@ export const create = async (
       .insert(submissions)
       .values({
         uuid: id.toString(),
-        challengeId: challengeResult.val.id,
-        participantId: participantResult.val.id,
+        challengeId: challenge.id,
+        participantId: participant.id,
       })
       .returning();
 
     const submission = transformer.newSubmission(
       result[0],
-      challengeResult.val,
-      participantResult.val,
+      challenge,
+      participant,
     );
     return Ok(submission);
   } catch (e) {
     return Err(new Error("Failed to create submission"));
   }
+};
+
+// private
+const beforeCreate = async (
+  challengeId: string,
+  participantId: string,
+): Promise<Result<[Challenge, Participant], Error>> => {
+  const challengeResult = await ChallengesService.findByUuid(challengeId);
+  if (!challengeResult.ok) {
+    return Err(new Error("Failed to find challenge"));
+  }
+
+  const participantResult = await ParticipantsService.findByUuid(participantId);
+  if (!participantResult.ok) {
+    return Err(new Error("Failed to find participant"));
+  }
+
+  const countResult = await AccesibleChallengesService.count(
+    challengeResult.val,
+    participantResult.val,
+  );
+  if (!countResult.ok) {
+    return Err(new Error("Failed to count accessible challenges"));
+  }
+
+  const count = countResult.val;
+  if (count === 0) {
+    return Err(
+      new Error("Participant is not allowed to submit this challenge"),
+    );
+  }
+
+  return Ok([challengeResult.val, participantResult.val]);
 };
