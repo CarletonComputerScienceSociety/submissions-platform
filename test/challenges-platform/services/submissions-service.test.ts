@@ -2,7 +2,6 @@ import {
   ChallengesService,
   SubmissionService,
 } from "../../../app/challenges-platform";
-import { Challenge } from "../../../app/challenges-platform/models";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
 
