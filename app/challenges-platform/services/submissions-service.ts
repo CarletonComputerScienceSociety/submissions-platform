@@ -16,6 +16,9 @@ export const create = async (
   if (!challengeResult.ok) {
     return Err(new Error("Failed to find challenge"));
   }
+  if (challengeResult.val.deleted === true) {
+    return Err(new Error("Challenge is deleted"));
+  }
   const participantResult = await ParticipantsService.findByUuid(participantId);
   if (!participantResult.ok) {
     return Err(new Error("Failed to find participant"));
