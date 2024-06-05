@@ -13,7 +13,7 @@ jobs:
     - name: Run Prettier
       run: |
         npm run check
-    - name: Setup db
+    - name: Set up db
       run: |
         echo -e 'PORT=3000\nDATABASE_URL="./db/test.db"' > .env.test
         npx dotenv -e .env.test -- drizzle-kit push --config=.github/ci-config.ts
