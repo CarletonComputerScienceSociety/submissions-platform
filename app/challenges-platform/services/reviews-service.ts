@@ -6,7 +6,7 @@ import { uuid } from "../../../app/common";
 
 export const create = async (
   status: Status,
-  submission_id: number,
+  submissionId: number,
   body: string,
 ): Promise<Result<Review, Error>> => {
   // TODO: add a check to make sure the submission exists
@@ -21,7 +21,7 @@ export const create = async (
         uuid: id,
         status: Status[status],
         body: body,
-        submissionId: submission_id,
+        submissionId: submissionId,
       })
       .returning();
 
