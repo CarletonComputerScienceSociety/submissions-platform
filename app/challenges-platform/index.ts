@@ -3,6 +3,7 @@ export {
   ParticipantsService,
   ReviewsService,
   SubmissionService,
+  AccesibleChallengesService,
 } from "./services";
 import { Transformer } from "./models";
 import { transformers } from "../../config/challenges-platform/transformers";
