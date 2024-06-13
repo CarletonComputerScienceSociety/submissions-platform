@@ -16,6 +16,15 @@ describe("ParticipantsService", () => {
   });
 
   describe("findByUuid", () => {
+    describe("when the id is invalid", () => {
+      it("returns an error", async () => {
+        const result = await ParticipantsService.findByUuid("invalid-id");
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Invalid UUID");
+      });
+    });
+
     describe("when there is an existing record", () => {
       it("returns the participant", async () => {
         const participant = await participantFactory();
@@ -26,6 +35,18 @@ describe("ParticipantsService", () => {
       });
     });
   });
+
+  describe("findById", () => {
+    describe("when there is an existing record", () => {
+      it("returns the participant", async () => {
+        const participant = await participantFactory();
+        const result = await ParticipantsService.findById(participant.id);
+
+        if (!result.ok) fail("Expected result to be Ok");
+        expect(result.val.email).toBe(participant.email);
+      });
+    });
+  }); 
 
   describe("findByEmail", () => {
     it("throws an error", async () => {

@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { Ok, Err, Result } from "ts-results";
 import { db } from "../../../db";
 import { submissions } from "../../../db/schema";
@@ -9,6 +10,40 @@ import {
   ParticipantsService,
 } from "../services";
 import { challengesPlatform } from "..";
+
+export const findByUuid = async (
+  id: string,
+  type: string = "base",
+): Promise<Result<Submission, Error>> => {
+  if (!uuid.isValid(id)) {
+    return Err(new Error("Invalid UUID"));
+  }
+
+  const result = await db
+    .select()
+    .from(submissions)
+    .where(eq(submissions.uuid, id));
+  
+  const record = result[0];
+  if (!record.challengeId || !record.participantId) {
+    return Err(new Error("Invalid submission"));
+  }
+
+  const challengeResult = await ChallengesService.findById(record.challengeId);
+  if (!challengeResult.ok) {
+    return Err(new Error("Failed to find challenge"));
+  }
+
+  const participantResult = await ParticipantsService.findById(record.participantId);
+  if (!participantResult.ok) {
+    return Err(new Error("Failed to find participant"));
+  } 
+
+  const transformer = challengesPlatform.findTransformer(type);
+  const submission = transformer.newSubmission(result[0], challengeResult.val, participantResult.val);
+
+  return Ok(submission);
+};
 
 export const create = async (
   challengeId: string,

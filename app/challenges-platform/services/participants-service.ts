@@ -17,14 +17,36 @@ export const findByUuid = async (
     .from(participants)
     .where(eq(participants.uuid, id));
 
+  const participant = await convert(result[0]);
+
+  return Ok(participant);
+};
+
+export const findById = async (
+  id: number,
+): Promise<Result<Participant, Error>> => {
+  
+  const result = await db
+    .select()
+    .from(participants)
+    .where(eq(participants.id, id));
+  
+  const participant = await convert(result[0]);
+
+  return Ok(participant);
+}
+
+export const convert = async (
+  result: any,
+): Promise<Participant> => {
   const challenge = new Participant({
-    id: result[0].id,
-    uuid: result[0].uuid,
-    email: result[0].email,
+    id: result.id,
+    uuid: result.uuid,
+    email: result.email,
   });
 
-  return Ok(challenge);
-};
+  return challenge;
+}
 
 export const findByEmail = async (
   email?: string,

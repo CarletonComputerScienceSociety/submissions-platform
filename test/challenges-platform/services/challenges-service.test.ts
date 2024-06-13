@@ -26,7 +26,22 @@ describe("ChallengesService", () => {
         expect(result.val.points).toBe(100);
       });
     });
-  });
+  }); 
+
+  describe("findById", () => {
+    describe("when there is an existing record", () => {
+      it("returns the challenge", async () => {
+        const challenge = await challengeFactory();
+
+        const result = await ChallengesService.findById(challenge.id);
+
+        if (!result.ok) fail("Expected result to be Ok");
+        expect(result.val.title).toBe("Test Challenge");
+        expect(result.val.body).toBe("This is a test challenge");
+        expect(result.val.points).toBe(100);
+      });
+    }); 
+  }); 
 
   describe("create", () => {
     it("succesfully creates a challenge", async () => {

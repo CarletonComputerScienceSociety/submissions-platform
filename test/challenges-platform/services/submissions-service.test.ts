@@ -3,6 +3,34 @@ import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
 
 describe("SubmissionService", () => {
+  describe("findByUuid", () => {
+    describe("when the id is invalid", () => {
+      it("returns an error", async () => {
+        const result = await SubmissionService.findByUuid("invalid-id");
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Invalid UUID");
+      });
+    });
+    describe("when there is an existing record", () => {
+      it("returns the submission", async () => {
+        const challenge = await challengeFactory();
+        const participant = await participantFactory();
+
+        const submission = await SubmissionService.create(
+          challenge.uuid,
+          participant.uuid,
+        );
+        if (!submission.ok) fail("Expected submission to be Ok");
+
+        const result = await SubmissionService.findByUuid(submission.val.uuid);
+
+        if (!result.ok) fail("Expected result to be Ok");
+        expect(result.val.challenge.id).toBe(challenge.id);
+        expect(result.val.participant.id).toBe(participant.id);
+      });
+    });
+  });
   describe("create", () => {
     describe("when challenge and participant exist", () => {
       it("succesfully creates a submission", async () => {
