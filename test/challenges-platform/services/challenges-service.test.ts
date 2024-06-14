@@ -52,7 +52,7 @@ describe("ChallengesService", () => {
         expect(result.val.body).toBe("This is a test challenge");
         expect(result.val.points).toBe(100);
       });
-    }); 
+    });
 
     describe("when there is no record", () => {
       it("returns an error", async () => {
@@ -63,7 +63,7 @@ describe("ChallengesService", () => {
         expect(result.val.toString()).toBe("Error: Challenge not found");
       });
     });
-  }); 
+  });
 
   describe("create", () => {
     it("succesfully creates a challenge", async () => {

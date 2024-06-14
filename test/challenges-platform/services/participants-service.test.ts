@@ -57,7 +57,7 @@ describe("ParticipantsService", () => {
         expect(result.val.email).toBe(participant.email);
       });
     });
-    
+
     describe("when there is no record", () => {
       it("returns an error", async () => {
         const testId = -1;

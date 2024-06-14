@@ -38,16 +38,22 @@ export const findByUuid = async (
     return Err(new Error("Failed to find challenge"));
   }
 
-  const participantResult = await ParticipantsService.findById(record.participantId);
+  const participantResult = await ParticipantsService.findById(
+    record.participantId,
+  );
   if (!participantResult.ok) {
     return Err(new Error("Failed to find participant"));
   }
 
   const transformer = challengesPlatform.findTransformer(type);
-  const submission = transformer.newSubmission(result[0], challengeResult.val, participantResult.val);
+  const submission = transformer.newSubmission(
+    result[0],
+    challengeResult.val,
+    participantResult.val,
+  );
 
   return Ok(submission);
-}
+};
 
 export const create = async (
   challengeId: string,

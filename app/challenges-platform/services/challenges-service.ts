@@ -21,38 +21,35 @@ export const findByUuid = async (
   if (result.length === 0) {
     return Err(new Error("Challenge not found"));
   }
-  
-  const challenge = await convert(result[0]);
-  
-  return Ok(challenge);
-}
-
-export const findById = async (
-  id: number,
-): Promise<Result<Challenge, Error>> => {
-
-  const result = await db
-    .select()
-    .from(challenges)
-    .where(eq(challenges.id, id));
-
-    if (result.length === 0) {
-      return Err(new Error("Challenge not found"));
-    }
 
   const challenge = await convert(result[0]);
 
   return Ok(challenge);
 };
 
-export const convert = async (
-  result: any,
-): Promise<Challenge> => {
+export const findById = async (
+  id: number,
+): Promise<Result<Challenge, Error>> => {
+  const result = await db
+    .select()
+    .from(challenges)
+    .where(eq(challenges.id, id));
+
+  if (result.length === 0) {
+    return Err(new Error("Challenge not found"));
+  }
+
+  const challenge = await convert(result[0]);
+
+  return Ok(challenge);
+};
+
+export const convert = async (result: any): Promise<Challenge> => {
   const transformer = challengesPlatform.findTransformer(result.type);
   const challenge = transformer.newChallenge(result);
 
   return challenge;
-}
+};
 
 export const create = async ({
   title,
