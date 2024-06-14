@@ -8,6 +8,7 @@ export enum Evaluation {
   MANUAL,
   AUTOMATIC,
 }
+
 export class Challenge {
   id: number;
   uuid: string;
@@ -16,6 +17,7 @@ export class Challenge {
   format: Format;
   evaluation: Evaluation;
   points: number;
+  deleted: boolean;
 
   constructor({
     id,
@@ -25,6 +27,7 @@ export class Challenge {
     format,
     evaluation,
     points,
+    deleted,
   }: {
     id: number;
     uuid: string;
@@ -33,6 +36,7 @@ export class Challenge {
     format: Format;
     evaluation: Evaluation;
     points: number;
+    deleted: boolean;
   }) {
     this.id = id;
     this.uuid = uuid;
@@ -41,5 +45,6 @@ export class Challenge {
     this.format = format;
     this.evaluation = evaluation;
     this.points = points;
+    this.deleted = deleted;
   }
 }

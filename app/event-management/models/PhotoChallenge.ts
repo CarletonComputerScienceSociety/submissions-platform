@@ -52,6 +52,7 @@ export class PhotoChallenge extends Challenge {
       format,
       points,
       evaluation: Evaluation.MANUAL,
+      deleted: false,
     });
   }
 }
