@@ -12,11 +12,8 @@ export const findByUuid = async (
     return Err(new Error("Invalid UUID"));
   }
 
-  const result = await db
-    .select()
-    .from(reviews)
-    .where(eq(reviews.uuid, id));
-  
+  const result = await db.select().from(reviews).where(eq(reviews.uuid, id));
+
   if (result.length === 0) {
     return Err(new Error("Review not found"));
   }
@@ -26,9 +23,7 @@ export const findByUuid = async (
   return review;
 };
 
-export const convert = async (
-  result: any,
-): Promise<Result<Review, Error>> => {
+export const convert = async (result: any): Promise<Result<Review, Error>> => {
   let status: Status;
   switch (result[0].status) {
     case "approved":
@@ -48,4 +43,4 @@ export const convert = async (
   });
 
   return Ok(review);
-}
+};

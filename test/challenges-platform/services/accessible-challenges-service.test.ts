@@ -10,7 +10,10 @@ describe("AccessibleChallengesService", () => {
         const challenge = await challengeFactory();
         const participant = await participantFactory();
 
-        const result = await AccesibleChallengesService.count(challenge, participant);
+        const result = await AccesibleChallengesService.count(
+          challenge,
+          participant,
+        );
 
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val).toBe(0);
@@ -22,15 +25,18 @@ describe("AccessibleChallengesService", () => {
         const participant = await participantFactory();
 
         const insert = await accessibleChallengeFactory({
-            challenge,
-            participant
+          challenge,
+          participant,
         });
 
-        const result = await AccesibleChallengesService.count(challenge, participant);
+        const result = await AccesibleChallengesService.count(
+          challenge,
+          participant,
+        );
 
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val).toBe(1);
       });
     });
-  })
+  });
 });

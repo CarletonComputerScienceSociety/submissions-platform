@@ -46,7 +46,7 @@ describe("ParticipantsService", () => {
         expect(result.val.email).toBe(participant.email);
       });
     });
-  }); 
+  });
 
   describe("findByEmail", () => {
     it("throws an error", async () => {

@@ -26,7 +26,7 @@ describe("ChallengesService", () => {
         expect(result.val.points).toBe(100);
       });
     });
-  }); 
+  });
 
   describe("findById", () => {
     describe("when there is an existing record", () => {
@@ -40,8 +40,8 @@ describe("ChallengesService", () => {
         expect(result.val.body).toBe("This is a test challenge");
         expect(result.val.points).toBe(100);
       });
-    }); 
-  }); 
+    });
+  });
 
   describe("create", () => {
     it("succesfully creates a challenge", async () => {
