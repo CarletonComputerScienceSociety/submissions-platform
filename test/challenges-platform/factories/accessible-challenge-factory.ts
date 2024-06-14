@@ -9,16 +9,16 @@ import { db } from "../../../db";
 import { accessibleChallenges } from "../../../db/schema";
 
 export const accessibleChallengeFactory = async ({
-    challenge,
-    participant,
-  }: {
-    challenge?: Challenge;
-    participant?: Participant;
-  } = {}): Promise<Number> => {
-    const c = challenge || (await challengeFactory());
-    const p = participant || (await participantFactory());
+  challenge,
+  participant,
+}: {
+  challenge?: Challenge;
+  participant?: Participant;
+} = {}): Promise<Number> => {
+  const c = challenge || (await challengeFactory());
+  const p = participant || (await participantFactory());
 
-    const insertResult = await db
+  const insertResult = await db
     .insert(accessibleChallenges)
     .values({
       challengeId: c.id,
@@ -26,7 +26,7 @@ export const accessibleChallengeFactory = async ({
     })
     .returning();
 
-    const result = await AccessibleChallengesService.count(c, p);
-    if (!result.ok) fail("Expected result to be Ok");
-    return result.val;
-  };
+  const result = await AccessibleChallengesService.count(c, p);
+  if (!result.ok) fail("Expected result to be Ok");
+  return result.val;
+};
