@@ -28,7 +28,7 @@ npm install
 npm install -g dotenv-cli
 ```
 
-5. Add a `.env` and `.env.test` file it your root with the following configurations:
+5. Add a `.env` and `.env.test` file in your root with the following configurations:
 
 ```bash
 PORT=3000

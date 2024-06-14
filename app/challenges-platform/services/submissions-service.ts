@@ -18,6 +18,17 @@ export const create = async (
 ): Promise<Result<Submission, Error>> => {
   const result = await beforeCreate(challengeId, participantId);
   if (!result.ok) return result;
+  const challengeResult = await ChallengesService.findByUuid(challengeId);
+  if (!challengeResult.ok) {
+    return Err(new Error("Failed to find challenge"));
+  }
+  if (challengeResult.val.deleted === true) {
+    return Err(new Error("Challenge is deleted"));
+  }
+  const participantResult = await ParticipantsService.findByUuid(participantId);
+  if (!participantResult.ok) {
+    return Err(new Error("Failed to find participant"));
+  }
 
   const [challenge, participant] = result.val;
 

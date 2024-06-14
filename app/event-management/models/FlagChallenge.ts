@@ -55,6 +55,7 @@ export class FlagChallenge extends Challenge {
       format,
       points,
       evaluation: Evaluation.AUTOMATIC,
+      deleted: false,
     });
     this.flag = flag;
   }
