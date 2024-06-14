@@ -72,5 +72,6 @@ describe("ReviewsService", () => {
         expect(result.val.toString()).toBe("Error: Review not found");
       });
     });
+    // implement test for when there is an existing record, need factory(?) + create method
   });
 });
