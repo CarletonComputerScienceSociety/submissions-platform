@@ -72,9 +72,12 @@ describe("ChallengesService", () => {
 
   describe("destroy", () => {
     it("throws an error", async () => {
-      const result = await ChallengesService.destroy();
+      const challenge = await challengeFactory();
 
-      expect(result.err).toBe(true);
+      const result = await ChallengesService.destroy(challenge.uuid);
+
+      if (!result.ok) fail("Expected result to be Ok");
+      expect(result.val.deleted).toBe(true);
     });
   });
 
