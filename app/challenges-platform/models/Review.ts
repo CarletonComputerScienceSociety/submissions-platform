@@ -4,7 +4,7 @@ export enum Status {
 }
 
 export class Review {
-  id: string;
+  id: number;
   status: Status;
   comment: string | null;
 
@@ -13,7 +13,7 @@ export class Review {
     status,
     comment,
   }: {
-    id: string;
+    id: number;
     status: Status;
     comment: string | null;
   }) {
