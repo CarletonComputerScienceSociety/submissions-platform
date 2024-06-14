@@ -1,5 +1,7 @@
 import { ReviewsService } from "../../../app/challenges-platform";
 import { Status } from "../../../app/challenges-platform/models";
+import { uuid } from "../../../app/common";
+import { reviewFactory } from "../factories/review-factory";
 import { submissionFactory } from "../factories/submission-factory";
 
 describe("ReviewsService", () => {
@@ -31,6 +33,43 @@ describe("ReviewsService", () => {
 
         expect(result.err).toBe(true);
         expect(result.val.toString()).toBe("Error: Failed to create review");
+      });
+    });
+  });
+  describe("findByUuid", () => {
+    describe("when review exists", () => {
+      it("returns the review", async () => {
+        const body = "Nice work";
+        const submission = await submissionFactory();
+        const review = await reviewFactory({
+          submission: submission,
+          body: body,
+        });
+
+        const result = await ReviewsService.findByUuid(review.uuid);
+
+        if (!result.ok) fail("Expected result to be Ok");
+        expect(result.val.status).toBe(Status.APPROVED);
+        expect(result.val.comment).toBe(body);
+      });
+    });
+    describe("when review does not exist", () => {
+      it("returns an error", async () => {
+        const invalidUuid = "invalid-uuid";
+        const result = await ReviewsService.findByUuid(invalidUuid);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Invalid UUID");
+      });
+    });
+
+    describe("when uuid is invalid", () => {
+      it("returns an error", async () => {
+        const testUuid = uuid.create();
+        const result = await ReviewsService.findByUuid(testUuid);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Review not found");
       });
     });
   });
