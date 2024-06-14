@@ -1,5 +1,6 @@
 import { ParticipantsService } from "../../../app/challenges-platform";
 import { participantFactory } from "../factories/participant-factory";
+import { uuid } from "../../../app/common";
 
 describe("ParticipantsService", () => {
   describe("create", () => {
@@ -34,6 +35,16 @@ describe("ParticipantsService", () => {
         expect(result.val.email).toBe(participant.email);
       });
     });
+
+    describe("when there is no record", () => {
+      it("returns an error", async () => {
+        const testUuid = uuid.create();
+        const result = await ParticipantsService.findByUuid(testUuid);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Participant not found");
+      });
+    });
   });
 
   describe("findById", () => {
@@ -44,6 +55,15 @@ describe("ParticipantsService", () => {
 
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val.email).toBe(participant.email);
+      });
+    });
+    describe("when there is no record", () => {
+      it("returns an error", async () => {
+        const testId = -1;
+        const result = await ParticipantsService.findById(testId);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Participant not found");
       });
     });
   }); 

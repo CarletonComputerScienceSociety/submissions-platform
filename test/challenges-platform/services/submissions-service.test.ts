@@ -1,6 +1,7 @@
 import { SubmissionService } from "../../../app/challenges-platform";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
+import { uuid } from "../../../app/common";
 
 describe("SubmissionService", () => {
   describe("findByUuid", () => {
@@ -28,6 +29,15 @@ describe("SubmissionService", () => {
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val.challenge.id).toBe(challenge.id);
         expect(result.val.participant.id).toBe(participant.id);
+      });
+    });
+    describe("when there is no record", () => {
+      it("returns an error", async () => {
+        const testUuid = uuid.create();
+        const result = await SubmissionService.findByUuid(testUuid);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Submission not found");
       });
     });
   });

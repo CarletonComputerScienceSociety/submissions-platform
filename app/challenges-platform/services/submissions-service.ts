@@ -24,6 +24,10 @@ export const findByUuid = async (
     .from(submissions)
     .where(eq(submissions.uuid, id));
   
+  if (result.length === 0) {
+    return Err(new Error("Submission not found"));
+  }
+  
   const record = result[0];
   if (!record.challengeId || !record.participantId) {
     return Err(new Error("Invalid submission"));

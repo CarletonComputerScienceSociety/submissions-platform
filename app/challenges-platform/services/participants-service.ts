@@ -16,6 +16,10 @@ export const findByUuid = async (
     .select()
     .from(participants)
     .where(eq(participants.uuid, id));
+  
+  if (result.length === 0) {
+    return Err(new Error("Participant not found"));
+  }
 
   const participant = await convert(result[0]);
 
@@ -30,6 +34,10 @@ export const findById = async (
     .select()
     .from(participants)
     .where(eq(participants.id, id));
+  
+  if (result.length === 0) {
+    return Err(new Error("Participant not found"));
+  }
   
   const participant = await convert(result[0]);
 
