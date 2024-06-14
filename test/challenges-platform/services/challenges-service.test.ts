@@ -2,6 +2,8 @@ import { ChallengesService } from "../../../app/challenges-platform";
 import { challengeFactory } from "../factories/challenge-factory";
 import { CustomTransformer, CustomChallenge } from "../custom-transformer";
 import { challengesPlatform } from "../../../app/challenges-platform";
+import { desc } from "drizzle-orm";
+import { uuid } from "../../../app/common";
 
 describe("ChallengesService", () => {
   describe("findByUuid", () => {
@@ -26,7 +28,42 @@ describe("ChallengesService", () => {
         expect(result.val.points).toBe(100);
       });
     });
+
+    describe("when there is no record", () => {
+      it("returns an error", async () => {
+        const testUuid = uuid.create();
+        const result = await ChallengesService.findByUuid(testUuid);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Challenge not found");
+      });
+    });
   });
+
+  describe("findById", () => {
+    describe("when there is an existing record", () => {
+      it("returns the challenge", async () => {
+        const challenge = await challengeFactory();
+
+        const result = await ChallengesService.findById(challenge.id);
+
+        if (!result.ok) fail("Expected result to be Ok");
+        expect(result.val.title).toBe("Test Challenge");
+        expect(result.val.body).toBe("This is a test challenge");
+        expect(result.val.points).toBe(100);
+      });
+    }); 
+
+    describe("when there is no record", () => {
+      it("returns an error", async () => {
+        const testId = -1;
+        const result = await ChallengesService.findById(testId);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Challenge not found");
+      });
+    });
+  }); 
 
   describe("create", () => {
     it("succesfully creates a challenge", async () => {

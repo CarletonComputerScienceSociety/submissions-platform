@@ -17,14 +17,43 @@ export const findByUuid = async (
     .from(participants)
     .where(eq(participants.uuid, id));
 
-  const challenge = new Participant({
-    id: result[0].id,
-    uuid: result[0].uuid,
-    email: result[0].email,
-  });
+  if (result.length === 0) {
+    return Err(new Error("Participant not found"));
+  }
+  
+  const participant = await convert(result[0]);
+  
+  return Ok(participant);
+}
 
-  return Ok(challenge);
-};
+export const findById = async (
+  id: number,
+): Promise<Result<Participant, Error>> => {
+
+  const result = await db
+    .select()
+    .from(participants)
+    .where(eq(participants.id, id));
+
+  if (result.length === 0) {
+    return Err(new Error("Participant not found"));
+  }
+
+  const participant = await convert(result[0]);
+
+  return Ok(participant);
+}
+
+export const convert = async (
+  result: any,
+): Promise<Participant> => {
+  const participant = new Participant({
+    id: result.id,
+    uuid: result.uuid,
+    email: result.email,
+  });
+  return participant;
+}
 
 export const findByEmail = async (
   email?: string,
