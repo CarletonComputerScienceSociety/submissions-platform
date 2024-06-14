@@ -4,6 +4,7 @@ import {
 } from "../../../app/challenges-platform";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
+import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
 import { uuid } from "../../../app/common";
 
 describe("SubmissionService", () => {
@@ -20,6 +21,11 @@ describe("SubmissionService", () => {
       it("returns the submission", async () => {
         const challenge = await challengeFactory();
         const participant = await participantFactory();
+        
+        const insert = await accessibleChallengeFactory({
+          challenge,
+          participant,
+        });
 
         const submission = await SubmissionService.create(
           challenge.uuid,
@@ -51,11 +57,16 @@ describe("SubmissionService", () => {
         const challenge = await challengeFactory();
         const participant = await participantFactory();
 
+        const insert = await accessibleChallengeFactory({
+          challenge,
+          participant,
+        });
+
         const result = await SubmissionService.create(
           challenge.uuid,
           participant.uuid,
         );
-
+        
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val.challenge.id).toBe(challenge.id);
         expect(result.val.participant.id).toBe(participant.id);
