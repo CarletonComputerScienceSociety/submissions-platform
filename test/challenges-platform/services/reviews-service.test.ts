@@ -2,13 +2,20 @@ import { ReviewsService } from "../../../app/challenges-platform";
 import { Status } from "../../../app/challenges-platform/models";
 import { uuid } from "../../../app/common";
 import { reviewFactory } from "../factories/review-factory";
+import { challengeFactory } from "../factories/challenge-factory";
+import { participantFactory } from "../factories/participant-factory";
 import { submissionFactory } from "../factories/submission-factory";
+import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
 
 describe("ReviewsService", () => {
   describe("create", () => {
     describe("when submission exists", () => {
       it("succesfully creates a review", async () => {
-        const submission = await submissionFactory();
+        const [challenge, participant] = await accessibleChallengeFactory();
+        const submission = await submissionFactory({
+          challenge: challenge,
+          participant: participant,
+        });
         const body = "Nice work";
 
         const result = await ReviewsService.create(
@@ -40,7 +47,11 @@ describe("ReviewsService", () => {
     describe("when review exists", () => {
       it("returns the review", async () => {
         const body = "Nice work";
-        const submission = await submissionFactory();
+        const [challenge, participant] = await accessibleChallengeFactory();
+        const submission = await submissionFactory({
+          challenge: challenge,
+          participant: participant,
+        });
         const review = await reviewFactory({
           submission: submission,
           body: body,
@@ -72,6 +83,5 @@ describe("ReviewsService", () => {
         expect(result.val.toString()).toBe("Error: Review not found");
       });
     });
-    // implement test for when there is an existing record, need factory(?) + create method
   });
 });

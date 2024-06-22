@@ -13,7 +13,7 @@ export const accessibleChallengeFactory = async ({
 }: {
   challenge?: Challenge;
   participant?: Participant;
-} = {}): Promise<any> => {
+} = {}): Promise<[Challenge, Participant]> => {
   const c = challenge || (await challengeFactory());
   const p = participant || (await participantFactory());
 
@@ -24,4 +24,6 @@ export const accessibleChallengeFactory = async ({
       participantId: p.id,
     })
     .returning();
+
+  return [c, p];
 };
