@@ -26,7 +26,7 @@ describe("ReviewsService", () => {
         const result = await ReviewsService.create(
           Status.REJECTED,
           invalidId,
-          "bad id",
+          "body",
         );
 
         expect(result.err).toBe(true);
