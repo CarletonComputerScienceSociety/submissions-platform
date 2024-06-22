@@ -5,7 +5,7 @@ import { AccessibleChallengesService } from "../../../app/challenges-platform";
 
 describe("AccessibleChallengesService", () => {
   describe("count", () => {
-    describe("when the challenge is not accessible", () => {
+    describe("when the challenge is not accessible to the participant", () => {
       it("returns 0", async () => {
         const challenge = await challengeFactory();
         const participant = await participantFactory();
@@ -19,12 +19,12 @@ describe("AccessibleChallengesService", () => {
         expect(result.val).toBe(0);
       });
     });
-    describe("when the challenge is accessible", () => {
+    describe("when the challenge is accessible to the participant", () => {
       it("returns 1", async () => {
         const challenge = await challengeFactory();
         const participant = await participantFactory();
 
-        const insert = await accessibleChallengeFactory({
+        await accessibleChallengeFactory({
           challenge,
           participant,
         });
