@@ -43,7 +43,7 @@ export const create = async (
     const result = await db
       .insert(participants)
       .values({
-        uuid: id.toString(),
+        uuid: id,
         email: email,
       })
       .returning();

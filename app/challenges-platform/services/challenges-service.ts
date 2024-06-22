@@ -50,7 +50,7 @@ export const create = async ({
     const result = await db
       .insert(challenges)
       .values({
-        uuid: id.toString(),
+        uuid: id,
         title: title,
         body: body,
         points: points,
