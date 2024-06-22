@@ -7,7 +7,6 @@ describe("ReviewsService", () => {
     describe("when submission exists", () => {
       it("succesfully creates a review", async () => {
         const submission = await submissionFactory();
-
         const body = "Nice work";
 
         const result = await ReviewsService.create(
@@ -23,9 +22,10 @@ describe("ReviewsService", () => {
     });
     describe("when submission does not exist", () => {
       it("returns an error", async () => {
+        const invalidId = -1;
         const result = await ReviewsService.create(
           Status.REJECTED,
-          -1,
+          invalidId,
           "bad id",
         );
 
