@@ -66,16 +66,6 @@ describe("ReviewsService", () => {
     });
     describe("when review does not exist", () => {
       it("returns an error", async () => {
-        const invalidUuid = "invalid-uuid";
-        const result = await ReviewsService.findByUuid(invalidUuid);
-
-        expect(result.err).toBe(true);
-        expect(result.val.toString()).toBe("Error: Invalid UUID");
-      });
-    });
-
-    describe("when uuid is invalid", () => {
-      it("returns an error", async () => {
         const testUuid = uuid.create();
         const result = await ReviewsService.findByUuid(testUuid);
 
@@ -83,5 +73,15 @@ describe("ReviewsService", () => {
         expect(result.val.toString()).toBe("Error: Review not found");
       });
     });
-  });
+
+    describe("when uuid is invalid", () => {
+      it("returns an error", async () => {
+        const invalidUuid = "invalid-uuid";
+        const result = await ReviewsService.findByUuid(invalidUuid);
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Invalid UUID");
+      });
+    });
+  }); 
 });
