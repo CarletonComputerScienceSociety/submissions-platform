@@ -83,5 +83,5 @@ describe("ReviewsService", () => {
         expect(result.val.toString()).toBe("Error: Invalid UUID");
       });
     });
-  }); 
+  });
 });
