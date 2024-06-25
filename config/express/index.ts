@@ -1,7 +1,7 @@
-import express, { Express } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { notFound, errorHandler } from "./middleware";
+import express, { Express } from "express";
+import { errorHandler, notFound } from "./middleware";
 import { default as restRouter } from "./router";
 
 dotenv.config();

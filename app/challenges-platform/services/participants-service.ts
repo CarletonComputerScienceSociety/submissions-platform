@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
-import { Ok, Err, Result } from "ts-results";
-import { Participant } from "../models/Participant";
+import { Err, Ok, Result } from "ts-results";
+import { uuid } from "../../../app/common";
 import { db } from "../../../db";
 import { participants } from "../../../db/schema";
-import { uuid } from "../../../app/common";
+import { Participant } from "../models/Participant";
 
 export const findByUuid = async (
   id: string,

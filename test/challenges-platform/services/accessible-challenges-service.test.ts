@@ -1,7 +1,7 @@
+import { AccessibleChallengesService } from "../../../app/challenges-platform";
+import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
-import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
-import { AccessibleChallengesService } from "../../../app/challenges-platform";
 
 describe("AccessibleChallengesService", () => {
   describe("count", () => {

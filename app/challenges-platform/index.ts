@@ -1,12 +1,12 @@
 export {
+  AccessibleChallengesService,
   ChallengesService,
   ParticipantsService,
   ReviewsService,
   SubmissionService,
-  AccessibleChallengesService,
 } from "./services";
-import { Transformer } from "./models";
 import { transformers } from "../../config/challenges-platform/transformers";
+import { Transformer } from "./models";
 import { BaseTransformer } from "./models/Transformer";
 
 class ChallengesPlatform {

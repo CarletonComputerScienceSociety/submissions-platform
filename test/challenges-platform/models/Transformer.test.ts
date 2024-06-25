@@ -1,9 +1,9 @@
-import { BaseTransformer } from "../../../app/challenges-platform/models/Transformer";
 import {
   Challenge,
   Evaluation,
   Format,
 } from "../../../app/challenges-platform/models";
+import { BaseTransformer } from "../../../app/challenges-platform/models/Transformer";
 
 describe("BaseTransformer", () => {
   describe("newChallenge", () => {
