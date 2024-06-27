@@ -27,6 +27,29 @@ describe("ReviewsService", () => {
         expect(result.val.comment).toBe(body);
       });
     });
+    describe("when submission has already been reviewed", () => {
+      it("returns an error", async () => {
+        const [challenge, participant] = await accessibleChallengeFactory();
+        const submission = await submissionFactory({
+          challenge: challenge,
+          participant: participant,
+        });
+        const body = "Nice work";
+        await reviewFactory({
+          submission: submission,
+          body: body,
+        });
+
+        const result = await ReviewsService.create(
+          Status.APPROVED,
+          submission.id,
+          body,
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Submission has already been reviewed");
+      });
+    });
     describe("when submission does not exist", () => {
       it("returns an error", async () => {
         const invalidId = -1;
