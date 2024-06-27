@@ -1,9 +1,10 @@
-import { ChallengesService } from "../../../app/challenges-platform";
-import { challengeFactory } from "../factories/challenge-factory";
-import { CustomTransformer, CustomChallenge } from "../custom-transformer";
-import { challengesPlatform } from "../../../app/challenges-platform";
-import { desc } from "drizzle-orm";
+import {
+  ChallengesService,
+  challengesPlatform,
+} from "../../../app/challenges-platform";
 import { uuid } from "../../../app/common";
+import { CustomChallenge, CustomTransformer } from "../custom-transformer";
+import { challengeFactory } from "../factories/challenge-factory";
 
 describe("ChallengesService", () => {
   describe("findByUuid", () => {

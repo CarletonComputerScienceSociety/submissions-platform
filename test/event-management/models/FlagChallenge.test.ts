@@ -1,7 +1,9 @@
-import { FlagChallenge } from "../../../app/event-management/models/FlagChallenge";
-import { FlagChallengeSubmission } from "../../../app/event-management/models/FlagChallenge";
 import { Format } from "../../../app/challenges-platform/models";
-import { FlagTransformer } from "../../../app/event-management/models/FlagChallenge";
+import {
+  FlagChallenge,
+  FlagChallengeSubmission,
+  FlagTransformer,
+} from "../../../app/event-management/models/FlagChallenge";
 import { challengeFactory } from "../../challenges-platform/factories/challenge-factory";
 import { participantFactory } from "../../challenges-platform/factories/participant-factory";
 

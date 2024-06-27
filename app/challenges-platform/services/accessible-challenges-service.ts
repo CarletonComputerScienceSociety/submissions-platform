@@ -1,7 +1,7 @@
-import { accessibleChallenges } from "../../../db/schema";
-import { Ok, Result } from "ts-results";
 import { eq } from "drizzle-orm";
+import { Ok, Result } from "ts-results";
 import { db } from "../../../db";
+import { accessibleChallenges } from "../../../db/schema";
 import { Challenge, Participant } from "../models";
 
 export const count = async (

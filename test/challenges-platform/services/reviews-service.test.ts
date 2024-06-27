@@ -1,11 +1,9 @@
 import { ReviewsService } from "../../../app/challenges-platform";
 import { Status } from "../../../app/challenges-platform/models";
 import { uuid } from "../../../app/common";
-import { reviewFactory } from "../factories/review-factory";
-import { challengeFactory } from "../factories/challenge-factory";
-import { participantFactory } from "../factories/participant-factory";
-import { submissionFactory } from "../factories/submission-factory";
 import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
+import { reviewFactory } from "../factories/review-factory";
+import { submissionFactory } from "../factories/submission-factory";
 
 describe("ReviewsService", () => {
   describe("create", () => {
@@ -27,6 +25,31 @@ describe("ReviewsService", () => {
         if (!result.ok) fail("Expected result to be Ok");
         expect(result.val.status).toBe(Status.APPROVED);
         expect(result.val.comment).toBe(body);
+      });
+    });
+    describe("when submission has already been reviewed", () => {
+      it("returns an error", async () => {
+        const [challenge, participant] = await accessibleChallengeFactory();
+        const submission = await submissionFactory({
+          challenge: challenge,
+          participant: participant,
+        });
+        const body = "Nice work";
+        await reviewFactory({
+          submission: submission,
+          body: body,
+        });
+
+        const result = await ReviewsService.create(
+          Status.APPROVED,
+          submission.id,
+          body,
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe(
+          "Error: Submission has already been reviewed",
+        );
       });
     });
     describe("when submission does not exist", () => {

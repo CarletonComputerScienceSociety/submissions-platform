@@ -1,6 +1,6 @@
 import { ParticipantsService } from "../../../app/challenges-platform";
-import { participantFactory } from "../factories/participant-factory";
 import { uuid } from "../../../app/common";
+import { participantFactory } from "../factories/participant-factory";
 
 describe("ParticipantsService", () => {
   describe("create", () => {

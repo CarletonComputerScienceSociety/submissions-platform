@@ -2,10 +2,10 @@ import {
   ChallengesService,
   SubmissionService,
 } from "../../../app/challenges-platform";
+import { uuid } from "../../../app/common";
+import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
-import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
-import { uuid } from "../../../app/common";
 
 describe("SubmissionService", () => {
   describe("findByUuid", () => {

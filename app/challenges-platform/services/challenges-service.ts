@@ -1,10 +1,10 @@
 import { eq } from "drizzle-orm";
-import { Ok, Err, Result } from "ts-results";
-import { Challenge, Format, Evaluation } from "../models/Challenge";
+import { Err, Ok, Result } from "ts-results";
+import { uuid } from "../../../app/common";
 import { db } from "../../../db";
 import { challenges } from "../../../db/schema";
-import { uuid } from "../../../app/common";
 import { challengesPlatform } from "../index";
+import { Challenge } from "../models/Challenge";
 
 export const findByUuid = async (
   id: string,

@@ -1,5 +1,5 @@
-import { ParticipantsService } from "../../../app/challenges-platform/services";
 import { Participant } from "../../../app/challenges-platform/models";
+import { ParticipantsService } from "../../../app/challenges-platform/services";
 
 export const participantFactory = async (
   email?: string,
