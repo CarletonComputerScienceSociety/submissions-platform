@@ -47,7 +47,9 @@ describe("ReviewsService", () => {
         );
 
         expect(result.err).toBe(true);
-        expect(result.val.toString()).toBe("Error: Submission has already been reviewed");
+        expect(result.val.toString()).toBe(
+          "Error: Submission has already been reviewed",
+        );
       });
     });
     describe("when submission does not exist", () => {
