@@ -59,10 +59,10 @@ export const create = async (
 export const convert = async (result: any): Promise<Result<Review, Error>> => {
   let status: Status;
   switch (result.status) {
-    case "approved":
+    case "APPROVED":
       status = Status.APPROVED;
       break;
-    case "rejected":
+    case "REJECTED":
       status = Status.REJECTED;
       break;
     default:

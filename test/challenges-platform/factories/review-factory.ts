@@ -21,7 +21,7 @@ export const reviewFactory = async ({
   const s = submission || (await submissionFactory());
   const b = body || "test review";
 
-  const statusString = st === Status.APPROVED ? "approved" : "rejected";
+  const statusString = st === Status.APPROVED ? "APPROVED" : "REJECTED";
   const insertResult = await db
     .insert(reviews)
     .values({
