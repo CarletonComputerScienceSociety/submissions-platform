@@ -30,6 +30,14 @@ export const create = async (
 ): Promise<Result<Review, Error>> => {
   // TODO: add a check to make sure the submission exists
   // TODO: check if submission has already been approved or rejected, handle accordingly
+  const check = await db
+    .select()
+    .from(reviews)
+    .where(eq(reviews.submissionId, submissionId));
+  
+  if (check.length > 0) {
+    return Err(new Error("Submission has already been reviewed"));
+  }
 
   const id = uuid.create();
 
