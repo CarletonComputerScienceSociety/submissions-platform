@@ -7,7 +7,7 @@ import { Challenge, Participant } from "../models";
 export const count = async (
   challenge: Challenge,
   participant: Participant,
-): Promise<Result<Number, Error>> => {
+): Promise<Result<number, Error>> => {
   const accessibleChallengesResult = await db
     .select({
       pId: accessibleChallenges.participantId,
