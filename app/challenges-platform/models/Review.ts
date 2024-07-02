@@ -11,7 +11,7 @@ export class Review {
 
   constructor({
     id,
-    uuid: uuid,
+    uuid,
     status,
     comment,
   }: {
