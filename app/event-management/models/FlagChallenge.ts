@@ -5,6 +5,7 @@ import {
   Participant,
   Submission,
   Transformer,
+  Judge,
 } from "../../challenges-platform/models";
 
 export class FlagChallengeSubmission extends Submission {
@@ -16,14 +17,16 @@ export class FlagChallengeSubmission extends Submission {
     challenge,
     participant,
     flag,
+    assignee,
   }: {
     id: number;
     uuid: string;
     challenge: Challenge;
     participant: Participant;
     flag: string;
+    assignee: Judge | null;
   }) {
-    super({ id, uuid, challenge, participant });
+    super({ id, uuid, challenge, participant, assignee });
     this.flag = flag;
   }
 }
@@ -90,6 +93,7 @@ export class FlagTransformer extends Transformer {
       challenge: challenge,
       participant: participant,
       flag: payload.flag,
+      assignee: null,
     });
     return submission;
   }

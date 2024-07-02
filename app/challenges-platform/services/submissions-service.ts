@@ -8,6 +8,7 @@ import {
   AccessibleChallengesService,
   ChallengesService,
   ParticipantsService,
+  JudgesService,
 } from "../services";
 import { challengesPlatform } from "..";
 
@@ -134,4 +135,41 @@ const beforeCreate = async (
   }
 
   return Ok([challengeResult.val, participantResult.val]);
+};
+
+export const assign = async (
+  submissionId: string,
+  judgeId: string,
+): Promise<Result<Submission, Error>> => {
+  const submissionResult = await findByUuid(submissionId);
+  if (!submissionResult.ok) {
+    return Err(new Error("Failed to find submission"));
+  }
+
+  const judgeResult = await JudgesService.findByUuid(judgeId);
+  if (!judgeResult.ok) {
+    return Err(new Error("Failed to find judge"));
+  }
+
+  const submission = submissionResult.val;
+
+  const result = await db
+    .update(submissions)
+    .set({ assignee: judgeResult.val.id })
+    .where(eq(submissions.id, submission.id))
+    .returning();
+
+  if (result.length === 0) {
+    return Err(new Error("Failed to assign judge"));
+  }
+
+  const updatedSubmission = new Submission({
+    id: submission.id,
+    uuid: submission.uuid,
+    challenge: submission.challenge,
+    participant: submission.participant,
+    assignee: judgeResult.val,
+  });
+
+  return Ok(updatedSubmission);
 };

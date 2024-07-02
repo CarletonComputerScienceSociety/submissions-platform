@@ -1,11 +1,15 @@
 import {
   ChallengesService,
   SubmissionService,
+  JudgesService,
 } from "../../../app/challenges-platform";
 import { challengeFactory } from "../factories/challenge-factory";
 import { participantFactory } from "../factories/participant-factory";
+import { judgeFactory } from "../factories/judge-factory";
 import { accessibleChallengeFactory } from "../factories/accessible-challenge-factory";
+import { submissionFactory } from "../factories/submission-factory";
 import { uuid } from "../../../app/common";
+import { Judge } from "../../../app/challenges-platform/models";
 
 describe("SubmissionService", () => {
   describe("findByUuid", () => {
@@ -117,6 +121,69 @@ describe("SubmissionService", () => {
 
         expect(result.err).toBe(true);
         expect(result.val.toString()).toBe("Error: Failed to find participant");
+      });
+    });
+  }); //write assign tests here and also judge service tests
+
+  describe("assign", () => {
+    describe("when the submission does not exist", () => {
+      it("returns an error", async () => {
+        const result = await SubmissionService.assign(
+          "invalid-uuid",
+          "invalid-uuid",
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Failed to find submission");
+      });
+    });
+    describe("when the judge does not exist", () => {
+      it("returns an error", async () => {
+        const challenge = await challengeFactory();
+        const participant = await participantFactory();
+        const insert = await accessibleChallengeFactory({
+          challenge,
+          participant,
+        });
+
+        const submission = await SubmissionService.create(
+          challenge.uuid,
+          participant.uuid,
+        );
+        if (!submission.ok) fail("Expected submission to be Ok");
+        const result = await SubmissionService.assign(
+          submission.val.uuid,
+          "invalid-uuid",
+        );
+
+        expect(result.err).toBe(true);
+        expect(result.val.toString()).toBe("Error: Failed to find judge");
+      });
+    });
+    describe("when the submission and judge exist", () => {
+      it("assigns the judge to the submission", async () => {
+        const challenge = await challengeFactory();
+        const participant = await participantFactory();
+        const judge = await judgeFactory();
+
+        const insert = await accessibleChallengeFactory({
+          challenge,
+          participant,
+        });
+
+        const submission = await SubmissionService.create(
+          challenge.uuid,
+          participant.uuid,
+        );
+        if (!submission.ok) fail("Expected submission to be Ok");
+
+        const assign = await SubmissionService.assign(
+          submission.val.uuid,
+          judge.uuid,
+        );
+
+        if (!assign.ok) fail("Expected assign to be Ok");
+        expect(assign.val.assignee?.id).toBe(judge.id);
       });
     });
   });

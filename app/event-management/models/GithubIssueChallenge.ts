@@ -5,6 +5,7 @@ import {
   Participant,
   Submission,
   Transformer,
+  Judge,
 } from "../../challenges-platform/models";
 
 export class GithubIssueChallengeSubmission extends Submission {
@@ -18,6 +19,7 @@ export class GithubIssueChallengeSubmission extends Submission {
     repositoryId,
     challenge,
     participant,
+    assignee,
   }: {
     id: number;
     uuid: string;
@@ -25,8 +27,9 @@ export class GithubIssueChallengeSubmission extends Submission {
     repositoryId: string;
     challenge: Challenge;
     participant: Participant;
+    assignee: Judge | null;
   }) {
-    super({ id, uuid, challenge, participant });
+    super({ id, uuid, challenge, participant, assignee });
     this.issueId = issueId;
     this.repositoryId = repositoryId;
   }
