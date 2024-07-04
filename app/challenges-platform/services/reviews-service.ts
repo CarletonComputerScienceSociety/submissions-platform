@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
-import { Ok, Err, Result } from "ts-results";
-import { Review, Status } from "../models/Review";
+import { Err, Ok, Result } from "ts-results";
+import { uuid } from "../../../app/common";
 import { db } from "../../../db";
 import { reviews } from "../../../db/schema";
-import { uuid } from "../../../app/common";
+import { Review, Status } from "../models/Review";
 
 export const findByUuid = async (
   id: string,
@@ -29,7 +29,15 @@ export const create = async (
   body: string,
 ): Promise<Result<Review, Error>> => {
   // TODO: add a check to make sure the submission exists
-  // TODO: check if submission has already been approved or rejected, handle accordingly
+
+  const check = await db
+    .select()
+    .from(reviews)
+    .where(eq(reviews.submissionId, submissionId));
+
+  if (check.length > 0) {
+    return Err(new Error("Submission has already been reviewed"));
+  }
 
   const id = uuid.create();
 

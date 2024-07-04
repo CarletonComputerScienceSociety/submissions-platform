@@ -1,11 +1,11 @@
-import { challengeFactory } from "./challenge-factory";
-import { participantFactory } from "./participant-factory";
+import { SubmissionService } from "../../../app/challenges-platform";
 import {
   Challenge,
   Participant,
   Submission,
 } from "../../../app/challenges-platform/models";
-import { SubmissionService } from "../../../app/challenges-platform";
+import { challengeFactory } from "./challenge-factory";
+import { participantFactory } from "./participant-factory";
 
 export const submissionFactory = async ({
   participant,
