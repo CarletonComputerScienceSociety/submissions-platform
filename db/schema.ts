@@ -36,6 +36,7 @@ export const submissions = sqliteTable("submissions", {
   metadata: text("metadata", { mode: "json" }),
   challengeId: integer("challenge_id").references(() => challenges.id),
   participantId: integer("participant_id").references(() => participants.id),
+  assignee: integer("assignee").references(() => judges.id),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
@@ -46,6 +47,13 @@ export const reviews = sqliteTable("reviews", {
   status: text("status").notNull(),
   submissionId: integer("submission_id").references(() => submissions.id),
   body: text("body").notNull(),
+  createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
+});
+
+export const judges = sqliteTable("judges", {
+  id: integer("id").primaryKey(),
+  uuid: text("uuid").notNull(),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });

@@ -5,6 +5,7 @@ import {
   Participant,
   Submission,
   Transformer,
+  Judge,
 } from "../../app/challenges-platform/models";
 
 export class CustomSubmission extends Submission {
@@ -18,6 +19,7 @@ export class CustomSubmission extends Submission {
     participant,
     propString,
     propNumber,
+    assignee,
   }: {
     id: number;
     uuid: string;
@@ -25,8 +27,9 @@ export class CustomSubmission extends Submission {
     participant: Participant;
     propString: string;
     propNumber: number;
+    assignee: Judge | null;
   }) {
-    super({ id, uuid, challenge, participant });
+    super({ id, uuid, challenge, participant, assignee });
     this.propString = propString;
     this.propNumber = propNumber;
   }
@@ -103,6 +106,7 @@ export class CustomTransformer extends Transformer {
       participant: participant,
       propString: payload.propString,
       propNumber: payload.propNumber,
+      assignee: null,
     });
     return submission;
   }

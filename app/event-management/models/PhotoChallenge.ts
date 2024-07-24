@@ -5,6 +5,7 @@ import {
   Participant,
   Submission,
   Transformer,
+  Judge,
 } from "../../challenges-platform/models";
 
 export class PhotoChallengeSubmission extends Submission {
@@ -16,14 +17,16 @@ export class PhotoChallengeSubmission extends Submission {
     photoUrl,
     challenge,
     participant,
+    assignee,
   }: {
     id: number;
     uuid: string;
     photoUrl: string;
     challenge: Challenge;
     participant: Participant;
+    assignee: Judge | null;
   }) {
-    super({ id, uuid, challenge, participant });
+    super({ id, uuid, challenge, participant, assignee });
     this.photoUrl = photoUrl;
   }
 }

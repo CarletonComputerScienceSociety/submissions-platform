@@ -1,6 +1,7 @@
 import { Challenge, Evaluation, Format } from "./Challenge";
 import { Participant } from "./Participant";
 import { Submission } from "./Submission";
+import { Judge } from "./Judge";
 
 export abstract class Transformer {
   public static newChallenge(payload: any): Challenge {
@@ -53,6 +54,7 @@ export class BaseTransformer extends Transformer {
       uuid: payload.uuid,
       challenge: challenge,
       participant: participant,
+      assignee: null,
     });
     return submission;
   }
